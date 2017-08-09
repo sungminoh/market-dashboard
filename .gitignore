@@ -1,0 +1,61 @@
+# Python 
+.DS_Store
+.env
+.flaskenv
+*.pyc
+*.pyo
+venv
+env
+env*
+dist
+build
+*.egg
+*.egg-info
+_mailinglist
+.tox
+.cache/
+
+# Javascript 
+bower_components
+node_modules
+*~
+static
+.grunt
+_SpecRunner.html
+__benchmarks__
+remote-repo/
+.module-cache
+docs/.bundle
+docs/code
+docs/_site
+docs/.sass-cache
+docs/js/*
+docs/downloads/*.zip
+docs/vendor/bundle
+fixtures/dom/public/react-dom.js
+fixtures/dom/public/react.js
+test/the-files-to-test.generated.js
+*.log*
+chrome-user-data
+*react*min*.js
+!src/node_modules
+.tern-port
+tags
+
+# Coverage reports
+htmlcov
+coverage
+.coverage
+.coverage.*
+*,cover<Paste>
+
+# IDE
+*.sublime-project
+*.sublime-workspace
+.idea
+*.iml
+.vscode
+
+# etc
+*.swp
+*.swo
