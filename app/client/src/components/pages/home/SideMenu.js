@@ -9,6 +9,9 @@ export default class SideMenu extends React.Component {
       subTree: [{
         title: 'Greeting',
         link: '/hello',
+      }, {
+        title: 'Protected',
+        link: '/auth',
       }],
     }, {
       title: 'Link',

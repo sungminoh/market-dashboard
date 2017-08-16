@@ -9,3 +9,15 @@
 .header-logout__btn:hover {
   color: #999;
 }
+
+.header-login__btn {
+  padding: 15px;
+  text-align: right;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  color: #333;
+}
+
+.header-login__btn:hover {
+  color: #999;
+}

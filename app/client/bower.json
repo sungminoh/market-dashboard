@@ -15,6 +15,6 @@
     "test"
   ],
   "dependencies": {
-    "AdminLTE": "admin-lte#^2.4.0"
+    "AdminLTE": "admin-lte#^2.3.11"
   }
 }

@@ -4,8 +4,15 @@
 
 - Move to base directory
 
-```shell
+```powershell
 cd app/client
+```
+
+- Install requirements
+
+```shell
+bower install  # Download AdminLTE template
+npm install    # Download node modules
 ```
 
 - Run one of these commands to run server using 3000 port
@@ -30,6 +37,12 @@ npm run build:prod  # build with prod config
 
 ### Back-end
 
+- Install requirements
+
+```shell
+pip install -r requirements.txt
+```
+
 - Run flask server using 5000 port
 
 ```Shell
@@ -41,4 +54,5 @@ python3 manager.py runserver
 ### Note
 
 * Express server only serves static files
-* Request to `/api/*` will be redirected to 5000 port and Flask server will handle it.
+* Requests to `/api/*` will be redirected to 5000 port and Flask server will handle them.
+

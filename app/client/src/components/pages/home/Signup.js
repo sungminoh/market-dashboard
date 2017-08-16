@@ -1,63 +1,38 @@
 import React, { PropTypes } from 'react';
-import { postLogin } from '../../../actions/loginAction';
+import { postSignup } from '../../../actions/authAction';
 import { createConnectComponent } from '../../../utils/componentUtil';
 import ErrorMessage from '../../common/ErrorMessage';
-
-
-/**
- * Login Button Component
- * @param isLoading
- * @constructor
- */
-const LoginButton = ({ isLoading }) => (
-  <button type="submit" className="btn btn-primary btn-block btn-flat">
-    <i
-      style={{
-        display: isLoading ? 'block' : 'none',
-      }}
-      className="fa fa-spin fa-refresh"
-    />
-    <span style={{
-      display: isLoading ? 'none' : 'block',
-    }}
-    >
-      Sign In
-    </span>
-  </button>
-);
-
-LoginButton.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-};
+import AuthButton from '../../common/AuthButton';
 
 /**
- * Login Page Component
+ * Sign up Page Component
  */
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
+      email: '',
       password: '',
+      name: '',
     };
   }
 
   shouldComponentUpdate(nextProps) {
     const {
       isSuccess,
-      redirectUrl,
+      redirect,
     } = nextProps;
 
-    if (isSuccess && redirectUrl) {
-      window.location.replace(redirectUrl);
+    if (isSuccess && redirect) {
+      window.location.replace(redirect);
       return false;
     }
     return true;
   }
 
-  onChangeUserId(e) {
+  onChangeEmail(e) {
     if (!this.props.isLoading) {
-      this.setState({ userId: e.target.value });
+      this.setState({ email: e.target.value });
     }
   }
 
@@ -67,18 +42,26 @@ class Login extends React.Component {
     }
   }
 
+  onChangeName(e) {
+    if (!this.props.isLoading) {
+      this.setState({ name: e.target.value });
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault();
 
     const dispatch = this.props.dispatch;
     const {
-      userId,
+      email,
       password,
+      name,
     } = this.state;
 
-    dispatch(postLogin({
-      userId,
+    dispatch(postSignup({
+      email,
       password,
+      name,
     }));
   }
 
@@ -94,20 +77,20 @@ class Login extends React.Component {
           <b>Dashboard</b> boilerplate
         </div>
         <div className="login-box-body">
-          <p className="login-box-msg">Sign in to start your session</p>
+          <p className="login-box-msg">Sign up to start your session</p>
           <ErrorMessage errorMsg={errorMsg} />
 
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form>
             <div className="form-group has-feedback">
               <input
-                id="userId"
-                type="text"
+                id="email"
+                type="email"
                 className="form-control"
-                placeholder="Login"
-                onChange={this.onChangeUserId.bind(this)}
-                value={this.state.userId}
+                placeholder="Email"
+                onChange={this.onChangeEmail.bind(this)}
+                value={this.state.email}
               />
-              <span className="glyphicon glyphicon-user form-control-feedback" />
+              <span className="glyphicon glyphicon-envelope form-control-feedback" />
             </div>
             <div className="form-group has-feedback">
               <input
@@ -120,9 +103,26 @@ class Login extends React.Component {
               />
               <span className="glyphicon glyphicon-lock form-control-feedback" />
             </div>
+            <div className="form-group has-feedback">
+              <input
+                id="name"
+                type="name"
+                className="form-control"
+                placeholder="Name"
+                onChange={this.onChangeName.bind(this)}
+                value={this.state.name}
+              />
+              <span className="glyphicon glyphicon-user form-control-feedback" />
+            </div>
             <div className="row">
               <div className="col-xs-12">
-                <LoginButton isLoading={isLoading} />
+                <AuthButton
+                  value="sign-up"
+                  isLoading={isLoading}
+                  title="Sign Up"
+                  className="btn-danger"
+                  onClick={this.handleSubmit.bind(this)}
+                />
               </div>
             </div>
           </form>
@@ -132,25 +132,25 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {
+Signup.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   errorMsg: PropTypes.string.isRequired,
   isSuccess: PropTypes.bool.isRequired,
 };
 
-export default createConnectComponent(Login, (state) => {
+export default createConnectComponent(Signup, (state) => {
   const {
     isLoading,
     isSuccess,
-    redirectUrl,
+    redirect,
     errorMsg,
-  } = state.loginReducer;
+  } = state.authReducer;
 
   return {
     isLoading,
     isSuccess,
-    redirectUrl,
+    redirect,
     errorMsg,
   };
 });

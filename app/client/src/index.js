@@ -1,6 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-import router from './router';
+import AppRouter from './router';
+import configureStore from './store/configureStore';
+const store = configureStore();
 
-render(router, document.getElementById('root'));
+
+render((
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+), document.getElementById('root'));
