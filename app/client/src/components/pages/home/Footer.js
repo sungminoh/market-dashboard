@@ -1,18 +1,13 @@
 import React from 'react';
+import { FooterText } from '../../../text.js';
+
 
 const Footer = () => (
   <footer className="main-footer">
     <div className="pull-right hidden-xs">
-      Sungmin Oh
+      {FooterText.RIGHT_SIDE}
     </div>
-    <strong>
-      Copyright &copy; 2017 &nbsp;
-      <a target="_blank" rel="noopener noreferrer" href="https://github.com/sungminoh">
-        Sungmin Oh
-      </a>
-      . &nbsp;
-    </strong>
-    All rights reserved.
+    {FooterText.MAIN}
   </footer>
 );
 

@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { postSignup } from '../../../actions/authAction';
 import { createConnectComponent } from '../../../utils/componentUtil';
 import ErrorMessage from '../../common/ErrorMessage';
 import AuthButton from '../../common/AuthButton';
+import { SignupText } from '../../../text';
 
-/**
- * Sign up Page Component
- */
+
 class Signup extends React.Component {
   constructor(props) {
     super(props);
@@ -15,19 +15,6 @@ class Signup extends React.Component {
       password: '',
       name: '',
     };
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const {
-      isSuccess,
-      redirect,
-    } = nextProps;
-
-    if (isSuccess && redirect) {
-      window.location.replace(redirect);
-      return false;
-    }
-    return true;
   }
 
   onChangeEmail(e) {
@@ -68,16 +55,22 @@ class Signup extends React.Component {
   render() {
     const {
       isLoading,
+      isAuthenticated,
       errorMsg,
     } = this.props;
+
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    if (isAuthenticated) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <div className="login-box">
         <div className="login-logo">
-          <b>Dashboard</b> boilerplate
+          {SignupText.LOGO}
         </div>
         <div className="login-box-body">
-          <p className="login-box-msg">Sign up to start your session</p>
+          <p className="login-box-msg">{SignupText.MESSAGE}</p>
           <ErrorMessage errorMsg={errorMsg} />
 
           <form>
@@ -114,16 +107,23 @@ class Signup extends React.Component {
               />
               <span className="glyphicon glyphicon-user form-control-feedback" />
             </div>
-            <div className="row">
+            <div className="row form-group">
               <div className="col-xs-12">
                 <AuthButton
-                  value="sign-up"
-                  isLoading={isLoading}
-                  title="Sign Up"
+                  value="log-in"
                   className="btn-danger"
+                  isLoading={isLoading}
+                  title={SignupText.BUTTON_TITLE}
                   onClick={this.handleSubmit.bind(this)}
                 />
               </div>
+            </div>
+            <div className="text-center">
+              <Link to={{
+                pathname: '/login',
+                state: { from: this.props.location },
+              }}
+              >{SignupText.LOGIN_LINK}</Link>
             </div>
           </form>
         </div>
@@ -136,21 +136,24 @@ Signup.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   errorMsg: PropTypes.string.isRequired,
-  isSuccess: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  location: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
+
+Signup.defaultProps = {
+  location: {},
 };
 
 export default createConnectComponent(Signup, (state) => {
   const {
     isLoading,
-    isSuccess,
-    redirect,
+    isAuthenticated,
     errorMsg,
   } = state.authReducer;
 
   return {
     isLoading,
-    isSuccess,
-    redirect,
+    isAuthenticated,
     errorMsg,
   };
 });

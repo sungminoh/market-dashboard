@@ -1,9 +1,12 @@
 import fetch from 'isomorphic-fetch';
 import { AuthActionType } from '../constants';
+import { AuthText } from '../text';
+
+const TOKEN = 'token';
 
 export const successLogin = (token) => {
   if (token) {
-    localStorage.setItem('token', token);
+    localStorage.setItem(TOKEN, token);
   }
   return {
     type: AuthActionType.SUCCESS_LOGIN,
@@ -11,7 +14,7 @@ export const successLogin = (token) => {
 };
 
 export const successLogout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem(TOKEN);
   return {
     type: AuthActionType.SUCCESS_LOGOUT,
   };
@@ -59,9 +62,9 @@ export const postSignup = ({
       if (result && result.success) {
         dispatch(successLogin(result.token));
       } else {
-        dispatch(fail('[Sign Up Error] Invalid email or password'));
+        dispatch(fail(AuthText.SIGNUP_FAIL));
       }
-    }).catch(err => dispatch(fail(`[Sign Up Error] ${err.toString()}`)));
+    }).catch(err => dispatch(fail(`${AuthText.SIGNUP_ERROR} ${err.toString()}`)));
   };
 };
 
@@ -100,9 +103,9 @@ export const postLogin = ({
       if (result && result.success) {
         dispatch(successLogin(result.token));
       } else {
-        dispatch(fail('[Login Error] Invalid email or password'));
+        dispatch(fail(AuthText.LOGIN_FAIL));
       }
-    }).catch(err => dispatch(fail(`[Login Error] ${err.toString()}`)));
+    }).catch(err => dispatch(fail(`${AuthText.LOGIN_ERROR} ${err.toString()}`)));
   };
 };
 
@@ -134,14 +137,14 @@ export const postLogout = () => {
       if (result && result.success) {
         dispatch(successLogout());
       } else {
-        dispatch(fail('[Logout Error]'));
+        dispatch(fail(AuthText.LOGOUT_FAIL));
       }
-    }).catch(err => dispatch(fail(`[Logout Error] ${err.toString()}`)));
+    }).catch(err => dispatch(fail(`${AuthText.LOGOUT_ERROR} ${err.toString()}`)));
   };
 };
 
 export const postSession = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(TOKEN);
 
   const SESSION_API_URL = '/api/auth/session';
   const requestInfo = {
@@ -167,8 +170,8 @@ export const postSession = () => {
       if (response.status === 200) {
         dispatch(successLogin());
       } else {
-        dispatch(fail(''));
+        dispatch(fail(AuthText.SESSION_FAIL));
       }
-    }).catch(err => dispatch(fail(`[Session Error] ${err.toString()}`)));
+    }).catch(err => dispatch(fail(`${AuthText.SESSION_ERROR} ${err.toString()}`)));
   };
 };

@@ -1,20 +1,18 @@
 import React, { PropTypes } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { postLogin } from '../../../actions/authAction';
 import { createConnectComponent } from '../../../utils/componentUtil';
 import ErrorMessage from '../../common/ErrorMessage';
 import AuthButton from '../../common/AuthButton';
+import { LoginText } from '../../../text';
 
-/**
- * Login Page Component
- */
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      isSignup: false,
     };
   }
 
@@ -47,12 +45,12 @@ class Login extends React.Component {
 
   render() {
     const {
-      isAuthenticated,
       isLoading,
+      isAuthenticated,
       errorMsg,
     } = this.props;
 
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     if (isAuthenticated) {
       return <Redirect to={from} />;
     }
@@ -60,10 +58,10 @@ class Login extends React.Component {
     return (
       <div className="login-box">
         <div className="login-logo">
-          <b>Dashboard</b> boilerplate
+          {LoginText.LOGO}
         </div>
         <div className="login-box-body">
-          <p className="login-box-msg">Login to start your session</p>
+          <p className="login-box-msg">{LoginText.MESSAGE}</p>
           <ErrorMessage errorMsg={errorMsg} />
 
           <form>
@@ -94,13 +92,17 @@ class Login extends React.Component {
                 <AuthButton
                   value="log-in"
                   isLoading={isLoading}
-                  title="Log In"
+                  title={LoginText.BUTTON_TITLE}
                   onClick={this.handleSubmit.bind(this)}
                 />
               </div>
             </div>
             <div className="text-center">
-              <a href='/signup'> I don't have account </a>
+              <Link to={{
+                pathname: '/signup',
+                state: { from: this.props.location },
+              }}
+              >{LoginText.SIGNUP_LINK}</Link>
             </div>
           </form>
         </div>
@@ -114,6 +116,11 @@ Login.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   errorMsg: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  location: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
+
+Login.defaultProps = {
+  location: {},
 };
 
 export default createConnectComponent(Login, (state) => {

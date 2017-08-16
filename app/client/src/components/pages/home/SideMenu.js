@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { SidebarText } from '../../../text';
 
 export default class SideMenu extends React.Component {
   renderTreeView() {
@@ -62,7 +63,7 @@ export default class SideMenu extends React.Component {
       <aside className="main-sidebar">
         <section className="sidebar">
           <ul className="sidebar-menu">
-            <li className="header">MAIN NAVIGATION</li>
+            <li className="header">{SidebarText.HEADER}</li>
             {this.renderTreeView()}
           </ul>
         </section>
