@@ -1,6 +1,6 @@
 {
-  "name": "flask-react-redux-boilerplate",
-  "description": "boilerplate for flask, react and redux",
+  "name": "market-dashboard",
+  "description": "raw materials and stock dashboard",
   "version": "1.0.0",
   "scripts": {
     "clean": "rimraf dist",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sungminoh/flask-react-redux-boilerplate.git"
+    "url": "https://github.com/sungminoh/market-dashboard.git"
   },
   "author": "Sungmin Oh <smoh2044@gmail.com>",
   "license": "MIT",

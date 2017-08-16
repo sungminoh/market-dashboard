@@ -28,14 +28,14 @@ export const FooterText = {
 }
 
 export const HeaderText = {
-  LOGO_MINI: '',
-  LOGO_LARGE: 'Dashboard',
+  LOGO_MINI: 'MD',
+  LOGO_LARGE: 'Market Dashboard',
 }
 
 export const LoginText = {
   LOGO: (
     <div>
-      <b>Dashboard</b> boilerplate
+      <b>Market</b> Dashboard
     </div>
   ),
   MESSAGE: 'Login to start your session',
@@ -46,7 +46,7 @@ export const LoginText = {
 export const SignupText = {
   LOGO: (
     <div>
-      <b>Dashboard</b> boilerplate
+      <b>Market</b> Dashboard
     </div>
   ),
   MESSAGE: 'Sign up to start your session',
