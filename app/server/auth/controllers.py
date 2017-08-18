@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint, request, jsonify, session
 from sqlalchemy.exc import IntegrityError
 from app.server.index import db, bcrypt
 from app.server.auth.models import User
 from app.server.auth.utils import generate_token, require_auth
+
 
 auth = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -15,13 +17,9 @@ def signup():
     password = bcrypt.generate_password_hash(params.get('password', ''))
     name = params.get('name', '')
 
-    user = User(
-        email=email,
-        password=password,
-        name=name
-    )
-
+    user = User(email=email, password=password, name=name)
     db.session.add(user)
+
     try:
         db.session.commit()
     except IntegrityError:

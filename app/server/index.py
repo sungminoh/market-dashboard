@@ -1,14 +1,17 @@
+# -*- coding: utf-8 -*-
 import os
 from flask import Flask, request, render_template, jsonify, url_for, redirect, g, send_from_directory, session
-from flask_sqlalchemy import SQLAlchemy
-from .config import TestConfig, ASSETS_DIR, ROOT_DIR
+from .config import TestConfig as config, ASSETS_DIR, ROOT_DIR
 from flask_bcrypt import Bcrypt
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__, static_folder=ASSETS_DIR + '', template_folder=ASSETS_DIR)
-app.config.from_object(TestConfig)
-db = SQLAlchemy(app)
+app.config.from_object(config)
 bcrypt = Bcrypt(app)
+
+
+db = SQLAlchemy(app)
 
 
 @app.route('/dist/<path:filepath>')
@@ -39,11 +42,12 @@ def not_found(error):
     return render_template('404.html'), 404
 
 # Import a module / component using its blueprint handler variable (mod_auth)
-from app.server.auth.controllers import auth as auth_module
+from app.server.auth.controllers import auth
+from app.server.petro.controllers import petro
 
 # Register blueprint(s)
-app.register_blueprint(auth_module)
-# app.register_blueprint(xyz_module)
+app.register_blueprint(auth)
+app.register_blueprint(petro)
 # ..
 
 # Build the database:

@@ -54,13 +54,16 @@ export const postSignup = ({
       SIGNUP_API_URL,
       requestInfo,
     ).then((response) => {
-      if (response.status === 200) {
+      let status = response.status;
+      if (status === 200 || status === 409) {
         return response.json();
       }
       return null;
     }).then((result) => {
       if (result && result.success) {
         dispatch(successLogin(result.token));
+      } else if (result.message) {
+        dispatch(fail(result.message));
       } else {
         dispatch(fail(AuthText.SIGNUP_FAIL));
       }

@@ -5,6 +5,10 @@ import { SidebarText } from '../../../text';
 export default class SideMenu extends React.Component {
   renderTreeView() {
     const menuTree = [{
+      title: 'Petro',
+      iconClassName: 'fa-fire',
+      link: '/petro',
+    }, {
       title: 'Hello',
       iconClassName: 'fa-laptop',
       subTree: [{
@@ -26,34 +30,43 @@ export default class SideMenu extends React.Component {
 
     return menuTree.map((mainRow, mainIndex) => (
       <li className="treeview" key={`sidemenu-li-treeview-${mainIndex}`}>
-        <a href="javascript:;">
-          <i className={`fa ${mainRow.iconClassName}`} />
-          <span>{mainRow.title}</span>
-          <i className="fa fa-angle-left pull-right" />
-        </a>
+        {mainRow.link ?
+          <Link to={{ pathname: mainRow.link }}>
+            <i className={`fa ${mainRow.iconClassName}`} />
+            <span>{mainRow.title}</span>
+          </Link> :
+          <a href="javascript:;">
+            <i className={`fa ${mainRow.iconClassName}`} />
+            <span>{mainRow.title}</span>
+            <i className="fa fa-angle-left pull-right" />
+          </a>
+        }
 
-        <ul className="treeview-menu">
-          {mainRow.subTree.map((subRow, subIndex) => {
-            if (!subRow.isExternal) {
+        {mainRow.subTree ?
+          <ul className="treeview-menu">
+            {mainRow.subTree.map((subRow, subIndex) => {
+              if (!subRow.isExternal) {
+                return (
+                  <li key={subIndex}>
+                    <Link to={{ pathname: subRow.link }}>
+                      <i className="fa fa-circle-o" />
+                      {subRow.title}
+                    </Link>
+                  </li>
+                );
+              }
               return (
                 <li key={subIndex}>
-                  <Link to={{ pathname: subRow.link }}>
+                  <a href={subRow.link} target="_blank">
                     <i className="fa fa-circle-o" />
                     {subRow.title}
-                  </Link>
+                  </a>
                 </li>
               );
-            }
-            return (
-              <li key={subIndex}>
-                <a href={subRow.link} target="_blank">
-                  <i className="fa fa-circle-o" />
-                  {subRow.title}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+            })}
+          </ul> :
+          null
+        }
       </li>
     ));
   }

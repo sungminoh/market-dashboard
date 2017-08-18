@@ -1,0 +1,48 @@
+.input-form--wrap form {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.input-form--editor-container {
+  float: left;
+  width: 100%;
+}
+
+.input-form--daterange{
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.input-form--table {
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.input-form--filter {
+  float: left;
+  width: 50%;
+  clear: both;
+  padding: 0 10px;
+}
+
+.input-form--radio{
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.input-form--link{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  float: right;
+  width: 50%;
+  height: 40px;
+  padding: 0 10px;
+}

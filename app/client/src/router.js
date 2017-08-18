@@ -5,6 +5,7 @@ import Base from './components/pages/home/Base';
 import Login from './components/pages/home/Login';
 import Signup from './components/pages/home/Signup';
 import NotFound from './components/pages/home/NotFound';
+import Petro from './components/pages/petro';
 
 import PrivateRoute from './utils/PrivateRoute';
 import history from './utils/history';
@@ -39,6 +40,7 @@ class AppRouter extends React.Component {
                 {/* NotFound */}
                 <Route path="/hello" component={NotFound} />
                 <PrivateRoute path="/auth" component={NotFound} />
+                <PrivateRoute path="/petro" component={Petro} />
                 <Route path="*" component={NotFound} />
               </Switch>
             </Base>
