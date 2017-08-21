@@ -62,12 +62,15 @@ def chart():
         return jsonify(success=True,
                        data={'prices': price_data,
                              'spreads': spread_data})
-    if data_type == 'monthly':
-        date_format = '%Y-%m'
-        data = get_aggregated(selected, date_format)
-        return jsonify(success=True, data=data)
     elif data_type == 'weekly':
         date_format = '%Y-%W'
+        price_data = get_aggregated(Price, selected, date_format)
+        spread_data = get_aggregated(Spread, selected, date_format)
+        return jsonify(success=True,
+                       data={'prices': price_data,
+                             'spreads': spread_data})
+    elif data_type == 'monthly':
+        date_format = '%Y-%m'
         price_data = get_aggregated(Price, selected, date_format)
         spread_data = get_aggregated(Spread, selected, date_format)
         return jsonify(success=True,

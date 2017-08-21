@@ -48,6 +48,7 @@ class ChartTab extends FormContainer {
               <h2>Spread</h2>
               <LineChart data={daily.spreads} yAxes={yAxes}/>
             </div> :
+          dataType === 'weekly' ?
             <div>
               {weekly.prices ?
                 <div>
@@ -55,6 +56,17 @@ class ChartTab extends FormContainer {
                   <CandleChart data={weekly.prices[yAxes[0]]} />
                   <h2>Spread</h2>
                   <CandleChart data={weekly.spreads[yAxes[0]]} />
+                </div>:
+                null
+              }
+            </div> :
+            <div>
+              {monthly.prices ?
+                <div>
+                  <h2>Price</h2>
+                  <CandleChart data={monthly.prices[yAxes[0]]} />
+                  <h2>Spread</h2>
+                  <CandleChart data={monthly.spreads[yAxes[0]]} />
                 </div>:
                 null
               }
