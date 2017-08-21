@@ -144,9 +144,9 @@ class LineAndScatterChart extends React.Component {
             orient="right"
             displayFormat={numberFormat}
           />
-          {this.renderEdgeIndicators(yAxes)}
-          {this.renderLineSeries(yAxes)}
-          {/*this.renderScatterSeries(yAxes)*/}
+          {renderEdgeIndicators(yAxes)}
+          {renderLineSeries(yAxes)}
+          {/*renderScatterSeries(yAxes)*/}
           <HoverTooltip
             yAccessor={d => d[yAxes[0]]}
             tooltipContent={tooltipContent(yAxes)}

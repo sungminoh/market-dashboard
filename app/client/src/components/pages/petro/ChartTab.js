@@ -49,10 +49,15 @@ class ChartTab extends FormContainer {
               <LineChart data={daily.spreads} yAxes={yAxes}/>
             </div> :
             <div>
-              <h2>Price</h2>
-              <CandleChart data={weekly.prices[yAxes[0]]} />
-              <h2>Spread</h2>
-              <CandleChart data={weekly.spreads[yAxes[0]]} />
+              {weekly.prices ?
+                <div>
+                  <h2>Price</h2>
+                  <CandleChart data={weekly.prices[yAxes[0]]} />
+                  <h2>Spread</h2>
+                  <CandleChart data={weekly.spreads[yAxes[0]]} />
+                </div>:
+                null
+              }
             </div>
           }
         </div>

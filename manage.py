@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import argparse
 from flask_script import Manager
-from app.server.index import app, db
+from app.server.index import app, db, bcrypt
 from app.server.auth.models import User
 
 manager = Manager(app)
@@ -13,9 +14,11 @@ def create_db():
 
 @manager.command
 def create_admin():
+    password = bcrypt.generate_password_hash('<ADMIN PASSWORD>')
     db.session.add(User(
         email='<ADMIN EMAIL ADDRESS>',
-        password='<ADMIN PASSWORD>',
+        password=password,
+        name='<ADMIN NAME>',
         admin=True,
         confirmed=True
     ))
