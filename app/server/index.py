@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, jsonify, url_for, redirect, g
 from .config import TestConfig as config, ASSETS_DIR, ROOT_DIR
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.mail import Mail
 
 
 app = Flask(__name__, static_folder=ASSETS_DIR + '', template_folder=ASSETS_DIR)
@@ -12,6 +13,7 @@ bcrypt = Bcrypt(app)
 
 
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 
 @app.route('/dist/<path:filepath>')

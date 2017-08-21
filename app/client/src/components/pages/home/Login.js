@@ -5,9 +5,10 @@ import { createConnectComponent } from '../../../utils/componentUtil';
 import ErrorMessage from '../../common/ErrorMessage';
 import AuthButton from '../../common/AuthButton';
 import { LoginText } from '../../../text';
+import FormContainer from '../../common/FormContainer';
 
 
-class Login extends React.Component {
+class Login extends FormContainer {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,17 +31,8 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     const dispatch = this.props.dispatch;
-    const {
-      email,
-      password,
-    } = this.state;
-
-    dispatch(postLogin({
-      email,
-      password,
-    }));
+    dispatch(postLogin(this.getFormData()));
   }
 
   render() {

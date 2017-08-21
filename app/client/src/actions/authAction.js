@@ -25,10 +25,14 @@ export const fail = errorMsg => ({
   errorMsg,
 });
 
+export const successAuth = () => {
+  return {
+    type: AuthActionType.SUCCESS_AUTH,
+  }
+}
+
 export const postSignup = ({
-  email,
-  password,
-  name,
+  params = {},
 }) => {
   const SIGNUP_API_URL = '/api/auth/signup';
   const requestInfo = {
@@ -38,42 +42,38 @@ export const postSignup = ({
       'Content-Type': 'application/json',
     },
     credentials: 'same-origin',
-    body: JSON.stringify({
-      email,
-      password,
-      name,
-    }),
+    body: JSON.stringify(params),
   };
 
   return (dispatch) => {
     dispatch({
-      type: AuthActionType.POST,
+      type: AuthActionType.POST_SIGNUP,
     });
 
     fetch(
       SIGNUP_API_URL,
       requestInfo,
     ).then((response) => {
-      let status = response.status;
-      if (status === 200 || status === 409) {
+      try {
         return response.json();
+      } catch (e) {
+        return null;
       }
-      return null;
     }).then((result) => {
       if (result && result.success) {
         dispatch(successLogin(result.token));
-      } else if (result.message) {
-        dispatch(fail(result.message));
+      }
+      if (result && result.isAuthed) {
+        dispatch(successAuth());
       } else {
-        dispatch(fail(AuthText.SIGNUP_FAIL));
+        dispatch(fail(result.message || AuthText.SIGNUP_FAIL));
       }
     }).catch(err => dispatch(fail(`${AuthText.SIGNUP_ERROR} ${err.toString()}`)));
   };
 };
 
 export const postLogin = ({
-  email,
-  password,
+  params={},
 }) => {
   const LOGIN_API_URL = '/api/auth/login';
   const requestInfo = {
@@ -83,30 +83,31 @@ export const postLogin = ({
       'Content-Type': 'application/json',
     },
     credentials: 'same-origin',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
+    body: JSON.stringify(params),
   };
 
   return (dispatch) => {
     dispatch({
-      type: AuthActionType.POST,
+      type: AuthActionType.POST_LOGIN,
     });
 
     fetch(
       LOGIN_API_URL,
       requestInfo,
     ).then((response) => {
-      if (response.status === 200) {
+      try {
         return response.json();
+      } catch (e) {
+        return null;
       }
-      return null;
     }).then((result) => {
       if (result && result.success) {
         dispatch(successLogin(result.token));
+      }
+      if (result && result.isAuthed) {
+        dispatch(successAuth());
       } else {
-        dispatch(fail(AuthText.LOGIN_FAIL));
+        dispatch(fail(result.message || AuthText.LOGIN_FAIL));
       }
     }).catch(err => dispatch(fail(`${AuthText.LOGIN_ERROR} ${err.toString()}`)));
   };
@@ -125,7 +126,7 @@ export const postLogout = () => {
 
   return (dispatch) => {
     dispatch({
-      type: AuthActionType.POST,
+      type: AuthActionType.POST_LOGOUT,
     });
 
     fetch(
@@ -164,16 +165,22 @@ export const postSession = () => {
 
   return (dispatch) => {
     dispatch({
-      type: AuthActionType.POST,
+      type: AuthActionType.POST_SESSION,
     });
     fetch(
       SESSION_API_URL,
       requestInfo,
     ).then((response) => {
-      if (response.status === 200) {
-        dispatch(successLogin());
+      const status = response.status;
+      if (status === 200 || status === 401) {
+        return response.json();
+      }
+      return null;
+    }).then((result) => {
+      if(result.success){
+        dispatch(successAuth());
       } else {
-        dispatch(fail(AuthText.SESSION_FAIL));
+        dispatch(fail(result.message || AuthText.SESSION_FAIL));
       }
     }).catch(err => dispatch(fail(`${AuthText.SESSION_ERROR} ${err.toString()}`)));
   };

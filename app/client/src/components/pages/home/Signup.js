@@ -5,9 +5,10 @@ import { createConnectComponent } from '../../../utils/componentUtil';
 import ErrorMessage from '../../common/ErrorMessage';
 import AuthButton from '../../common/AuthButton';
 import { SignupText } from '../../../text';
+import FormContainer from '../../common/FormContainer';
 
 
-class Signup extends React.Component {
+class Signup extends FormContainer {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,17 +40,7 @@ class Signup extends React.Component {
     e.preventDefault();
 
     const dispatch = this.props.dispatch;
-    const {
-      email,
-      password,
-      name,
-    } = this.state;
-
-    dispatch(postSignup({
-      email,
-      password,
-      name,
-    }));
+    dispatch(postSignup(this.getFormData()));
   }
 
   render() {

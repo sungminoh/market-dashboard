@@ -46,3 +46,10 @@
   height: 40px;
   padding: 0 10px;
 }
+
+.input-form--multiselect{
+  float:left;
+  width: 100%;
+  padding: 0 10px;
+}
+

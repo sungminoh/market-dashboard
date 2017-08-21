@@ -23,8 +23,10 @@ export const tooltipContent = (yAxes, entries) => {
     return {
       x: dateFormat(xAccessor(currentItem)),
       y: yAxes.map(axis => ({
-           label: axis, value: currentItem[axis] &&
-           numberFormat(currentItem[axis])}))
+           label: axis,
+           value: currentItem[axis] && numberFormat(currentItem[axis]),
+           stroke: str2Color(axis),
+          }))
          .concat(entries)
          .filter(line => line && line.value)
     };
@@ -43,3 +45,4 @@ export const yExtents = (d, yAxes, yMax, yMin) => {
   if(yMin > Number.MIN_VALUE) values.push(yMin);
   return values;
 }
+

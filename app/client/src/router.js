@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import Base from './components/pages/home/Base';
 import Login from './components/pages/home/Login';
@@ -31,8 +31,8 @@ class AppRouter extends React.Component {
     return (
       <Router history={history}>
         <div>
-          {/* Login */}
           <Switch>
+            {/* Login */}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Base>

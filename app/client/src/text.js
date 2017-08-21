@@ -67,3 +67,7 @@ export const NotFoundText = {
 export const SidebarText = {
   HEADER: 'MAIN NAVIGATION',
 }
+
+export const PetroText = {
+  FETCH_ERROR: 'Error while fetching data',
+}

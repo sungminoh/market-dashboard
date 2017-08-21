@@ -11,8 +11,19 @@ class CommonConfig(object):
     # operations using the other.
     THREADS_PER_PAGE = 2
     # Secret key for signing cookies
-    SECRET_KEY = "SESSION SECRET KEY"
+    SECRET_KEY = 'SESSION SECRET KEY'
+    SECURITY_PASSWORD_SALT = 'SECURITY_SALT'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # mail settings
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = True
+    # gmail authentication
+    MAIL_USERNAME = os.environ.get('APP_MAIL_USERNAME', '')
+    MAIL_PASSWORD = os.environ.get('APP_MAIL_PASSWORD', '')
+    # mail accounts
+    MAIL_DEFAULT_SENDER = 'market-dashboard@market.com'
 
 
 class BaseConfig(CommonConfig):
