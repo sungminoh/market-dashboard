@@ -13,7 +13,7 @@ def get_daily(table, selected=None):
         results = db.session.query(func.strftime('%Y-%m-%d', table.date).label('date'),
                                    *columns).all()
         return results_to_dict(results)
-    return [result.to_dict() for result in table.query.all()]
+    return [result.to_dict() for result in table.query.order_by('date').all()]
 
 
 def get_aggregated(table, selected, date_format):
@@ -42,6 +42,6 @@ def get_aggregated(table, selected, date_format):
                                 close_price.c.close.label('close')).\
             select_from(high_low).\
             join(open_price, open_price.c.date==high_low.c.date).\
-            join(close_price, close_price.c.date==high_low.c.date).all()
+            join(close_price, close_price.c.date==high_low.c.date).order_by('date').all()
         ret[col] = results_to_dict(data)
     return ret

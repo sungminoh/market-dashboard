@@ -35,14 +35,14 @@ class Petro extends FormContainer {
       dataType,
       selected,
     } = nextProps;
+    let diff = '';
     if(dataType !== 'daily'){
-      selected = selected.split(',');
       let exists = Object.keys(nextProps[dataType].prices || {});
-      let diff = selected.diff(exists);
-      selected = diff.join(',');
+      diff = selected.split(',').diff(exists);
+      diff = diff.join(',');
     }
-    if(!nextProps[dataType].prices || selected){
-      dispatch(fetchChartData(this.getFormData({dataType, selected})));
+    if(!nextProps[dataType].prices || diff){
+      dispatch(fetchChartData(this.getFormData({dataType, selected: diff})));
     }
   }
 
