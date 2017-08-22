@@ -33,6 +33,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/favicon.ico', methods=['GET'])
+def favicon():
+    return send_from_directory(os.path.join(ASSETS_DIR, 'src'), 'favicon.ico')
+
+
 @app.route('/<path:path>', methods=['GET'])
 def any_root_path(path):
     return render_template('index.html')
