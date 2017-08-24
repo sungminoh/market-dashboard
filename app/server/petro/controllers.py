@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import IntegrityError
-from app.server.index import db, bcrypt
+from app.server.index import db, logger
 from app.server.petro.models import Price, Spread
-from app.server.auth.utils import require_login
+from app.server.auth.utils import require_auth
 from app.batch.petro.crawler import PetroCrawler
 from app.server.petro.repository import get_daily, get_aggregated
-from app.server.petro.models import Price, Spread
 
 
 petro = Blueprint('petro', __name__, url_prefix='/api/petro')
@@ -16,6 +15,7 @@ petro = Blueprint('petro', __name__, url_prefix='/api/petro')
 def sync():
     crawler = PetroCrawler()
     df = crawler.get_df()
+    logger.info('CRAWL(%s): %s', crawler.date, crawler.file_path)
     columns = df.columns.tolist()
 
     price_columns = list(filter(lambda col: not col.endswith('spread'), columns))

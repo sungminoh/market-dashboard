@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, session, redirect
 from sqlalchemy.exc import IntegrityError
 from app.server.index import db, bcrypt
 from app.server.auth.models import User
-from app.server.auth.utils import generate_token, require_login, validate_email, generate_confirmation_token, confirm_token, require_confirmed
+from app.server.auth.utils import generate_token, validate_email, generate_confirmation_token, confirm_token, require_auth
 from app.server.auth.email import send_email
 
 
@@ -93,8 +93,7 @@ def login(email='', password=''):
 
 
 @auth.route('/session', methods=['POST'])
-@require_login
-@require_confirmed
+@require_auth
 def check_session():
     return jsonify(success=True)
 

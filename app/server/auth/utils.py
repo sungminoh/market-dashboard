@@ -73,6 +73,7 @@ def confirm_token(token, expiration=TWO_HOURS):
         return False
     return email
 
+
 def require_confirmed(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -82,3 +83,7 @@ def require_confirmed(f):
                        message='Please confirm your account.'), 401
 
     return decorated
+
+
+def require_auth(f):
+    return require_confirmed(require_login(f))

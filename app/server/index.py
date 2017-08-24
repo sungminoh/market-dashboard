@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask, request, render_template, jsonify, url_for, redirect, g, send_from_directory, session
-from .config import TestConfig as config, ASSETS_DIR, ROOT_DIR
+from flask import Flask, render_template, send_from_directory
+from .config import TestConfig as config, ASSETS_DIR
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.mail import Mail
+import logging
+from logging.handlers import RotatingFileHandler
 
 
 app = Flask(__name__, static_folder=ASSETS_DIR + '', template_folder=ASSETS_DIR)
 app.config.from_object(config)
 bcrypt = Bcrypt(app)
+handler = RotatingFileHandler('flask.log', maxBytes=100000, backupCount=1)
+handler.setLevel(logging.INFO)
+app.logger.addHandler(handler)
+logger = app.logger
 
 
 db = SQLAlchemy(app)

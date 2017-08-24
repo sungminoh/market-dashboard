@@ -3,6 +3,7 @@ import re
 from datetime import datetime, timedelta
 import pandas as pd
 from app.batch.crawler import Crawler, PageNotFoundError
+from app.server.index import logger
 
 
 class ExcelFileNotFound(PageNotFoundError):
@@ -10,16 +11,17 @@ class ExcelFileNotFound(PageNotFoundError):
 
 
 class PetroCrawler(Crawler):
-    page_url_format = 'http://petrochemical.tistory.com/entry/KB-Chemical-Watch-%s'
+    page_url_formats = ['http://petrochemical.tistory.com/entry/KB-Chemical-Watch-%s',
+                        'http://petrochemical.tistory.com/entry/KB-Chemical-Daily-%s']
     attachment_regex = r'''(http://[^>]*attachment[^>]*\.xl[^>]*)["']>'''
 
     def __init__(self):
         super().__init__()
         self.excel = None
         self.df = None
+        self.file_path = None
         self.date = datetime.now().strftime('%m%d')
 
-    @staticmethod
     def get_date(self, n):
         self.date = (datetime.now() - timedelta(days=n)).strftime('%m%d')
         return self.date
@@ -28,16 +30,18 @@ class PetroCrawler(Crawler):
         if self.excel:
             return self.excel
         for i in range(10):
-            try:
-                url = self.page_url_format % self.get_date(i)
-                html = self.get_html(url)
-                search = re.search(self.attachment_regex, html)
-                if search:
-                    file_path = search.groups()[0]
-                    self.excel = pd.ExcelFile(file_path, headers=self.headers)
-                    return self.excel
-            except PageNotFoundError:
-                pass
+            for page_url_format in self.page_url_formats:
+                try:
+                    url = page_url_format % self.get_date(i)
+                    html = self.get_html(url)
+                    search = re.search(self.attachment_regex, html)
+                    if search:
+                        self.file_path = search.groups()[0]
+                        self.excel = pd.ExcelFile(self.file_path, headers=self.headers)
+                        return self.excel
+                except PageNotFoundError:
+                    logger.warning('Page not found --- %s', url)
+                    pass
         raise ExcelFileNotFound('Excel file not found')
 
     @staticmethod
