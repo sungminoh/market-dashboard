@@ -17,11 +17,12 @@ class PetroCrawler(Crawler):
         super().__init__()
         self.excel = None
         self.df = None
+        self.date = datetime.now().strftime('%m%d')
 
     @staticmethod
-    def get_date(n):
-        date = (datetime.now() - timedelta(days=n)).strftime('%m%d')
-        return date
+    def get_date(self, n):
+        self.date = (datetime.now() - timedelta(days=n)).strftime('%m%d')
+        return self.date
 
     def get_excel(self):
         if self.excel:
