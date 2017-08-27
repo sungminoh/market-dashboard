@@ -52,6 +52,7 @@ class PetroCrawler(Crawler):
         spread_postfix = (col.replace('.1', '_spread') for col in lower_case)
         translate = ('cotton' if '면화' in col else
                      'rubber' if '고무' in col else
+                     'refining_margin' if '정제' in col else
                      col for col in spread_postfix)
         columns = list(translate)
         columns[0] = 'date'
