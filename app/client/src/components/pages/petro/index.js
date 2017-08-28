@@ -56,9 +56,15 @@ class Petro extends FormContainer {
           </h1>
         </section>
         <section className="content">
-          {/* <InputForm /> */}
+          {/*
           <InputForm type={this.props.dataType}/>
-          <ChartTab />
+          */}
+          <ChartTab yAxis="wti" type="price"/>
+          <ChartTab yAxis="refining_margin" type="price"/>
+          <ChartTab yAxis="ethylene" type="spread"/>
+          <ChartTab yAxis="ldpe" type="spread"/>
+          <ChartTab yAxis="pp" type="spread"/>
+          <ChartTab yAxis="butadiene" type="price"/>
         </section>
       </div>
     );
