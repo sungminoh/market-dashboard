@@ -16,7 +16,7 @@ const petroReducer = (state = {
   errorMsg: '',
   dataType: 'daily',
   keys: [],
-  selected: '',
+  selected: 'wti,refining_margin,ethylene,ldpe,pp,butadiene',
   daily: {},
   weekly: {},
   monthly: {},
